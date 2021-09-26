@@ -1,0 +1,38 @@
+# Broker MQTT
+
+Esse repositório contém uma POC de um Broker [MQTT 3.1.1](http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/errata01/os/mqtt-v3.1.1-errata01-os-complete.html)
+
+Os comandos implementados foram:
+
+- CONNECT
+- CONNACK
+- PUBLISH
+- SUBSCRIBE
+- SUBACK
+- PINGREQ
+- PINGRESP
+- DISCONNECT
+
+Cada comando é parseado e salvo em uma estrutura de dados genérica que representa o Control Packet, sendo feito a convesão quando necessária.
+
+## Arquitetura
+Para cada cliente conectado ao servidor, são criados 2 forks:
+- O primeiro é responsável por escutar novos comandos enviados pelo cliente e responder de acordo com o protocolo;
+- O segundo é responsável por rotear mensagens destinadas a esse cliente quando o mesmo está inscrito em algum tópico;
+
+A comunicação entre processos é feita via [mkfifo](https://man7.org/linux/man-pages/man3/mkfifo.3.html)
+
+Para cada tópico que uma inscrição é requisitada, é criado um arquivo /tmp/mqtt_server/topic_<TOPIC_NAME> onde ficarão salvos os nomes do FIFO dos clientes inscritos.
+
+Quando uma mensagem PUBLISH é encontrada, o processo que a recebe é responsável por rotear essa mensagem para todos os FIFOs válidos no arquivo do tópico.
+
+## Como compilar
+
+```sh
+make
+```
+
+## Como executar
+```sh
+./bin/mqtt_server <port>
+```
