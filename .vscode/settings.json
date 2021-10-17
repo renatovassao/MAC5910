@@ -1,0 +1,18 @@
+{
+    "files.associations": {
+        "string_view": "c",
+        "tuple": "c",
+        "decode.h": "c",
+        "string.h": "c",
+        "stdlib.h": "c",
+        "type.h": "c",
+        "unistd.h": "c",
+        "stdio.h": "c",
+        "connect.h": "c",
+        "control_packet.h": "c",
+        "connack.h": "c",
+        "array": "c",
+        "string": "c",
+        "pingresp.h": "c",
+        "time.h": "c"
+    },}
